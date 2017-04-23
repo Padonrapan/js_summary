@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>三种定义函数的差异</title>
+    <script type="text/javascript">
+        /*
+        test1(1,2);//这里调用test1会执行说明函数语句式具有函数提升，在页面解析时，会优先解析函数声明式
+        //三种定义函数方式
+        function test1(a,b){
+           alert(a+b);
+        }//函数语句式!!!静态，，只会被解析一次
+        var test2=function(m,n){
+            alert(m+n);
+        };//函数表达式也叫函数直面量!!!静态，，只会被解析一次
+        test2(3,4);//函数表达式顺序解析
+        var test3=new Function("x","y","alert(x+y);");//构造函数
+        test3(4,5);//构造函数也是顺序解析;动态，每次执行完之后会释放掉内存，很多次循环时不建议用这种形式!!!动态，每次都会被解析一次
+        */
+
+
+        /*
+        //循环语句内三种方式的执行速度的差异,,构造函数最慢，因为是动态的，每次循环都被解析，其它两种方式均是静态，只会解析一次
+        var d1=new Date();
+        var t1=d1.getTime();
+        for(var i=0;i<100000;i++){
+           // var test4=function(){;};
+           // function test5(){;}
+           var test6=new Function();//最慢
+        }
+        var d2=new Date();
+        var t2=d2.getTime();
+        alert(t2-t1);
+        */
+
+        /*
+        //解析顺序的差异
+        function f(){return 1;} //1     f()被4覆盖
+        alert(f()); //弹出4
+        var f=function(){return 2;};//2
+        alert(f()); //弹出2
+        var f=new Function("return 3;");//3
+        alert(f()); //弹出3
+        function f(){return 4;} //4
+        alert(f()); //弹出3，f()被3覆盖
+        var f=function(){return 5;};//5
+        alert(f()); //弹出5
+        var f=new Function("return 6;");//6
+        alert(f()); //弹出6
+        */
+        /* 函数语句式会提升，首先解析，因为先解析函数语句1,存放在内存中，再解析函数语句4，因为函数没有重载,
+         覆盖之前的内存中的f，接着顺序解析，等同于以下
+         function f(){return 1;}
+         function f(){return 4;}
+         alert(f());
+         var f=function(){return 2;};
+         alert(f());
+         var f=new Function("return 3;");
+         alert(f());
+         alert(f());
+         var f=function(){return 5;};
+         alert(f());
+         var f=new Function("return 6;");
+         alert(f());
+         依次弹出4 2 3 3 5 6
+         */
+
+        //作用域的差异
+        var k=1;
+        function test(){
+            var k=2;
+            //function t(){return k;} // 2 函数局部作用域
+            //var t=function(){return k;};  // 2 函数局部作用域
+            //var t=new Function("return k;");// 1顶级作用域
+            alert(t());
+        }
+        test();
+        /*相当于
+         var k=1;
+         var t=new Function("return k;");
+         function test(){
+         var k=2;
+         //function t(){return k;}
+         //var t=function(){return k;};
+         alert(t());
+         }
+         test();
+         */
+    </script>
+</head>
+<body>
+
+</body>
+</html>

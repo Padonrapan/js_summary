@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>arguments对象</title>
+    <script>
+        //函数的参数a,b,c,d为形参，10,20为实参
+        function example(a,b,c,d){
+            alert(example.length);//得到函数形参的个数
+            //函数内部有个隐形的arguments对象，可以访问函数的实际参数
+            alert(arguments.length);
+            //arguments对象用的最多的场景是递归,有个arguments.callee()方法，指向函数本身
+            return a+b;
+        }
+        example(10,20);
+
+
+        function fact(n){
+            if(n<=1){
+                return 1;
+            }
+            else{
+                //return n*arguments.callee(n-1);//建议要引用函数本身使用arguments.callee()这种方式
+                //return n*fact(n-1);//这种情况会抛错
+            }
+        }
+        var F=fact;
+        fact=null;
+        alert(fact(5));
+    </script>
+</head>
+<body>
+
+</body>
+</html>

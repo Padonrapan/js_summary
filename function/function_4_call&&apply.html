@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>call&&apply</title>
+    <script>
+        //call,apply简单的用法，绑定一些函数的方法，传递参数，调用
+        function sum(x,y){
+            return x+y;
+        }
+        function test1(m,n){
+           return sum.call(this,10,20);//this指向winow,相当于window.sum(10,20);,也就是sum(10,20)
+        }
+        function test2(num1,num2){
+            return sum.apply(this,[30,40]);////this指向winow,相当于window.sum(30,40);sum(30,40)
+        }
+        alert(test1());
+        alert(test2());
+
+        //call,apply更重要的用法，扩充作用域
+        var color="red";
+        var obj={
+            color:"blue"
+        };
+        function showColor(){
+           return this.color;
+        }
+        alert(showColor());//red;相当于window.showColor(),所以this指向window,window.color="red"
+        alert(showColor.call(obj));//blue,obj改变了showColor里边的this指针，此时this指向obj,obj.color="blue
+    </script>
+</head>
+<body>
+
+</body>
+</html>
