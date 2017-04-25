@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>js的继承方式</title>
+    <script type="text/javascript">
+        /*
+        //1.原型链继承
+        //特点：既继承父类的构造函数模板，又继承父类的原型对象
+              //父类
+        function Person(name,age){
+            this.name=name;
+            this.age=age;
+        }
+        Person.prototype.id=10;
+             //子类
+        function Boy(){
+
+        }
+        Boy.prototype=new Person("张三",20);//原型继承;缺点：必须在此处传递参数才有继承的效果
+        var b=new Boy();
+        alert(b.name);
+        alert(b.age);
+        alert(b.id);
+        */
+
+
+        /*
+        //2.借用构造函数继承(类继承)
+        //特点：只继承父类的构造函数模板，不继承父类的原型对象
+             //父类
+        function Person(name,age){
+            this.name=name;
+            this.age=age;
+        }
+        Person.prototype.id=10;
+             //子类
+        function Boy(name,age,sex){
+            this.sex=sex;
+            Person.call(this,name,age);//借用构造函数继承,this指向window,相当于window.Person(name,age),也就是Person(name,age)
+        }
+        var b=new Boy("李四",25);//在这里传递参数就可以
+        alert(b.name);
+        alert(b.age);
+        alert(b.id);//undefine 不继承父类的原型对象
+        */
+
+
+        /*
+        //3.混合继承：原型继承+借用构造函数继承
+             //父类
+        function Person(name,age){
+            this.name=name;
+            this.age=age;
+        }
+        Person.prototype.id=10;
+             //子类
+        function Boy(name,age,sex){
+            this.sex=sex;
+            Person.call(this,name,age);//借用构造函数继承
+        }
+        Boy.prototype=new Person();//原型继承，但不传递参数，相当于没有继承构造函数模板，只继承父类的原型对象
+        var b=new Boy("赵武",30,"男");
+        alert(b.name);
+        alert(b.age);
+        alert(b.id);
+        alert(b.sex);
+        */
+
+        //4.原型式继承
+        function obj(o){
+
+        }
+    </script>
+</head>
+<body>
+
+</body>
+</html>
