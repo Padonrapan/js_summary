@@ -287,6 +287,7 @@
             });
 */
 
+/*
             //4添加一个额外的方法会不会被覆盖或者只能执行一次,解决
             window.attachEvent("onload",function() {
                 var box = document.getElementById("box");
@@ -297,3 +298,66 @@
                     alert("hello html")
                 });
             });
+*/
+/*
+            //三.3 IE的事件切换器
+                window.attachEvent("onload",function() {
+                    var box = document.getElementById("box");
+                    box.attachEvent("onclick", toBlue);
+                });
+                function toRed(){
+                    var that=window.event.srcElement;
+                    that.className = "red";
+                    that.detachEvent("onclick",toRed);
+                    that.attachEvent("onclick",toBlue);
+                }
+                function toBlue(){
+                    var that=window.event.srcElement;
+                    that.className = "blue";
+                    that.detachEvent("onclick",toBlue);
+                    that.attachEvent("onclick",toRed);
+                }
+    */
+
+//跨浏览器添加事件
+function addEvent(obj,type,fn){
+    if(obj.addEventListener){
+        obj.addEventListener(type,fn,false);
+    }else if(obj.attachEvent){
+        obj.attachEvent("on"+type,fn);
+    }
+}
+//跨浏览器移除事件
+function removeEvent(obj,type,fn){
+    if(obj.removeEventListener){
+        obj.removeEventListener(type,fn,false);
+    }else if(obj.detachEvent){
+        obj.detachEvent("on"+type,fn);
+    }
+}
+//跨浏览器获取目标对象
+function getTarget(evt){
+    if(evt.target){     //  W3C
+        return evt.target;
+    }else if(window.event){     //IE
+        return window.event.srcElement;
+    }
+}
+
+addEvent(window,"load",function(){
+    var box=document.getElementById("box");
+    addEvent(box,"click",toBlue);
+});
+
+function toBlue(evt){
+    var that=getTarget(evt);
+    that.className="blue";
+    removeEvent(that,"click",toBlue);
+    addEvent(that,"click",toRed);
+}
+function toRed(evt){
+    var that=getTarget(evt);
+    that.className="red";
+    removeEvent(that,"click",toRed);
+    addEvent(that,"click",toBlue);
+}
